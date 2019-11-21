@@ -1,18 +1,22 @@
-var noteData = require("../db/db.json");
 var path = require("path");
-// var index = require("../public/index.html");
-// var notes = require("../public/notes.html");
-module.exports = function(app) {
-  app.get("/api/notes", function(req, res) {
-    res.json(noteData);
+var router = require("express").Router();
+​
+// ===============================================================================
+// ROUTING
+// ===============================================================================
+​
+​
+  // HTML GET Requests
+  // Below code handles when users "visit" a page.
+  // In each of the below cases the user is shown an HTML page of content
+  // ---------------------------------------------------------------------------
+​
+  router.get("/notes", function(req, res) {
+    res.sendFile(path.join(__dirname, "../public/notes.html"));
   });
-  app.post("/api/notes", function(req, res) {
-      noteData.push(req.body);
-      res.json(true);
+​
+  // If no matching route is found default to home
+  router.get("/", function(req, res) {
+    res.sendFile(path.join(__dirname, "../public/index.html"));
   });
-  app.post("/api/clear", function(req, res) {
-    index.length = 0;
-    notes.length = 0;
-    res.json({ ok: true });
-  });
-};
+module.exports = router
